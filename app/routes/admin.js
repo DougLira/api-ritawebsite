@@ -10,7 +10,7 @@ module.exports = app => {
     app.route('/admin/imoveis/:id')
         .delete(apiAdmin.deleteImovel);
 
-    app.route('/admin/imoveis/update/images/:id')
+    app.route('/admin/imoveis/images/:id')
         .put(apiAdmin.updateImages);
 
 };
