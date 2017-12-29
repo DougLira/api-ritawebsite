@@ -15,3 +15,13 @@ let mongoose = require('mongoose'),
     });
 
 mongoose.model('User', schema);
+
+mongoose.model('User').create({
+    "nome": "Douglas Lira",
+    "login": "douglas",
+    "password": "douglas18"
+}).then(data => {
+
+},err => {
+
+});
