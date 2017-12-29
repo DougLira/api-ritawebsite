@@ -5,12 +5,13 @@ module.exports = app => {
 
     app.route('/admin/imoveis')
         .get(apiSite.listPage)
-        .post(apiAdmin.novoImovel);
+        .post(apiAdmin.createImovel);
 
     app.route('/admin/imoveis/:id')
-        .delete(apiAdmin.deleteImovel);
+        .delete(apiAdmin.deleteImovel)
+        .put(apiAdmin.updateImovel);
 
     app.route('/admin/imoveis/images/:id')
-        .put(apiAdmin.updateImages);
+        .put(apiAdmin.createImages);
 
 };
