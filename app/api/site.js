@@ -51,7 +51,7 @@ api.filterCollectionCount = async (filter) => {
     return collectionSize;
 };
 
-api.listPage = async (req, res) => {
+api.listPageResidencial = async (req, res) => {
 
     let page = Math.trunc(req.query.page),
         search = req.query.search ? req.query.search : '.*',
@@ -151,6 +151,11 @@ api.filterListPage = async (req, res) => {
                 res.status(200).json(data);
             }
         });
+};
+
+api.listPageComercial = (req, res) => {
+
+
 };
 
 module.exports = api;

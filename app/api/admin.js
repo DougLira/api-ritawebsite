@@ -3,7 +3,9 @@ let urlDefault = require('../models/default-picture'),
     Imoveis = mongoose.model('Imoveis'),
     api = {};
 
-api.createImovel = (req, res) => {
+/*---------------- Residencial API ----------------------*/
+
+api.createResidencial = (req, res) => {
 
     let casa = false,
         apartamento = false,
@@ -53,7 +55,7 @@ api.createImovel = (req, res) => {
         });
 };
 
-api.updateImovel = (req, res) => {
+api.updateResidencial = (req, res) => {
 
     let id = req.params.id,
         casa = false,
@@ -103,7 +105,7 @@ api.updateImovel = (req, res) => {
         });
 };
 
-api.deleteImovel = (req, res) => {
+api.deleteResidencial = (req, res) => {
 
     let id = req.params.id;
 
@@ -119,7 +121,7 @@ api.deleteImovel = (req, res) => {
         })
 };
 
-api.createImages = (req, res) => {
+api.createImagesResidencial = (req, res) => {
 
     const imagens = JSON.parse(req.body.toString('utf8')),
         id = req.params.id,
@@ -153,7 +155,7 @@ api.createImages = (req, res) => {
         });
 };
 
-api.updateImages = (req, res) => {
+api.updateImagesResidencial = (req, res) => {
 
     const imagens = JSON.parse(req.body.toString('utf8')),
         id = req.params.id;
@@ -194,7 +196,7 @@ api.updateImages = (req, res) => {
     }
 };
 
-api.addImages = (req, res) => {
+api.addImagesResidencial = (req, res) => {
 
     const imagens = JSON.parse(req.body.toString('utf8')),
         id = req.params.id;
@@ -211,5 +213,30 @@ api.addImages = (req, res) => {
         })
 };
 
+/*---------------------- Comercial API --------------------------*/
+
+api.createComercial = (req, res) => {
+
+};
+
+api.updateComercial = (req, res) => {
+
+};
+
+api.deleteComercial = (req, res) => {
+
+};
+
+api.createImagesComercial = (req, res) => {
+
+};
+
+api.updateImagesComercial = (req, res) => {
+
+};
+
+api.addImagesComercial = (req, res) => {
+
+};
 
 module.exports = api;
