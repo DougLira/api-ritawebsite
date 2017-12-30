@@ -153,5 +153,63 @@ api.createImages = (req, res) => {
         });
 };
 
+api.updateImages = (req, res) => {
+
+    const imagens = JSON.parse(req.body.toString('utf8')),
+        id = req.params.id;
+
+    if (imagens.fotoPrincipal) {
+
+        Imoveis
+            .findByIdAndUpdate(id, {
+                $set: {
+                    fotoPrincipal: {url: imagens.fotoPrincipal},
+                    fotos: imagens.fotosSecundarias
+                }
+            })
+            .then(data => {
+
+                res.sendStatus(204);
+            }, err => {
+
+                console.log('Error at MODEL:Admin METHOD:updateImages. ERROR: ' + err);
+                res.status(500).json(err);
+            });
+    } else {
+
+        Imoveis
+            .findByIdAndUpdate(id, {
+                $set: {
+                    fotos: imagens.fotosSecundarias
+                }
+            })
+            .then(data => {
+
+                res.sendStatus(204);
+            }, err => {
+
+                console.log('Error at MODEL:Admin METHOD:updateImages. ERROR: ' + err);
+                res.status(500).json(err);
+            });
+    }
+};
+
+api.addImages = (req, res) => {
+
+    const imagens = JSON.parse(req.body.toString('utf8')),
+        id = req.params.id;
+
+    Imoveis
+        .findByIdAndUpdate(id, {$push: {fotos: {$each: imagens}}})
+        .then(data => {
+
+            res.sendStatus(204);
+        }, err => {
+
+            console.log('Error at MODEL:Admin METHOD:addImages. ERROR: ' + err);
+            res.status(500).json(err);
+        })
+};
+
 
 module.exports = api;

@@ -46,6 +46,7 @@ module.exports = app => {
 
                     console.log('Token rejeitado.');
                     res.sendStatus(401);
+                    return;
                 }
 
                 User

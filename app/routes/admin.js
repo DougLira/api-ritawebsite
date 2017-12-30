@@ -12,6 +12,9 @@ module.exports = app => {
         .put(apiAdmin.updateImovel);
 
     app.route('/admin/imoveis/images/:id')
-        .put(apiAdmin.createImages);
+        .post(apiAdmin.createImages)
+        .put(apiAdmin.updateImages);
 
+    app.route('/admin/imoveis/images/add/:id')
+        .put(apiAdmin.addImages);
 };
