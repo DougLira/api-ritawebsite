@@ -24,11 +24,6 @@ let urlDefault = require('./default-picture'),
             required: true,
             default: 0
         },
-        area_construida: {
-            type: Number,
-            required: true,
-            default: 0
-        },
         cidade: {
             type: String,
             required: true
@@ -46,7 +41,7 @@ let urlDefault = require('./default-picture'),
             required: true,
             default: false
         },
-        sala: {
+        sala_comercial: {
             type: Boolean,
             required: true,
             default: false

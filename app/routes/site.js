@@ -10,4 +10,7 @@ module.exports = function (app) {
 
     app.route('/imoveis/comercial')
         .get(api.listPageComercial);
+
+    app.route('/imoveis/comercial/filter')
+        .get(api.filterListPageComercial);
 };
