@@ -2,9 +2,12 @@ module.exports = function (app) {
 
     let api = app.api.site;
 
-    app.route('/imoveis')
+    app.route('/imoveis/residencial')
         .get(api.listPageResidencial);
 
-    app.route('/imoveis/filter')
-        .get(api.filterListPage);
+    app.route('/imoveis/residencial/filter')
+        .get(api.filterListPageResidencial);
+
+    app.route('/imoveis/comercial')
+        .get(api.listPageComercial);
 };

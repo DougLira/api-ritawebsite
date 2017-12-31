@@ -1,6 +1,7 @@
 let urlDefault = require('../models/default-picture'),
     mongoose = require('mongoose'),
-    Imoveis = mongoose.model('Imoveis'),
+    Residencial = mongoose.model('Residencial'),
+    Comercial = mongoose.model('Comercial'),
     api = {};
 
 /*---------------- Residencial API ----------------------*/
@@ -19,7 +20,7 @@ api.createResidencial = (req, res) => {
         terreno = true;
     }
 
-    let imovel = new Imoveis({
+    let imovel = new Residencial({
         anuncio: req.body.anuncio,
         valor: req.body.valor,
         dormitorios: req.body.dormitorios,
@@ -42,7 +43,7 @@ api.createResidencial = (req, res) => {
         terreno: terreno
     });
 
-    Imoveis
+    Residencial
         .create(imovel)
         .then(data => {
 
@@ -50,7 +51,7 @@ api.createResidencial = (req, res) => {
             res.status(201).json(data._id);
         }, err => {
 
-            console.log('Error at MODEL:Admin METHOD:novoImovel. ERROR: ' + err);
+            console.log('Error at API:Admin METHOD:createResidencial. ERROR: ' + err);
             res.status(500).json(err);
         });
 };
@@ -62,15 +63,15 @@ api.updateResidencial = (req, res) => {
         apartamento = false,
         terreno = false;
 
-    if (req.body.tipo === 'casa') {
+    if (req.body.tipo.toLowerCase() === 'casa') {
         casa = true;
-    } else if (req.body.tipo === 'apartamento') {
+    } else if (req.body.tipo.toLowerCase() === 'apartamento') {
         apartamento = true;
-    } else if (req.body.tipo === 'terreno') {
+    } else if (req.body.tipo.toLowerCase() === 'terreno') {
         terreno = true;
     }
 
-    Imoveis
+    Residencial
         .findByIdAndUpdate(id, {
             $set: {
                 anuncio: req.body.anuncio,
@@ -100,7 +101,7 @@ api.updateResidencial = (req, res) => {
             res.sendStatus(204);
         }, err => {
 
-            console.log('Error at MODEL:Admin METHOD:updateImovel. ERROR: ' + err);
+            console.log('Error at API:Admin METHOD:updateResidencial. ERROR: ' + err);
             res.status(500).json(err);
         });
 };
@@ -109,14 +110,14 @@ api.deleteResidencial = (req, res) => {
 
     let id = req.params.id;
 
-    Imoveis
+    Residencial
         .remove({_id: id})
         .then(data => {
 
             res.sendStatus(204);
         }, err => {
 
-            console.log('Error at MODEL:Admin METHOD:novoImovel. ERROR: ' + err);
+            console.log('Error at API:Admin METHOD:deleteResidencial. ERROR: ' + err);
             res.status(500).json(err);
         })
 };
@@ -138,7 +139,7 @@ api.createImagesResidencial = (req, res) => {
         fotosSecundarias.push(foto);
     }
 
-    Imoveis
+    Residencial
         .findByIdAndUpdate(id, {
             $set: {
                 fotoPrincipal: {url: imagens.fotoPrincipal},
@@ -150,7 +151,7 @@ api.createImagesResidencial = (req, res) => {
             res.sendStatus(204);
         }, err => {
 
-            console.log('Error at MODEL:Admin METHOD:createImages. ERROR: ' + err);
+            console.log('Error at API:Admin METHOD:createImagesResidencial. ERROR: ' + err);
             res.status(500).json(err);
         });
 };
@@ -162,7 +163,7 @@ api.updateImagesResidencial = (req, res) => {
 
     if (imagens.fotoPrincipal) {
 
-        Imoveis
+        Residencial
             .findByIdAndUpdate(id, {
                 $set: {
                     fotoPrincipal: {url: imagens.fotoPrincipal},
@@ -174,12 +175,12 @@ api.updateImagesResidencial = (req, res) => {
                 res.sendStatus(204);
             }, err => {
 
-                console.log('Error at MODEL:Admin METHOD:updateImages. ERROR: ' + err);
+                console.log('Error at API:Admin METHOD:updateImagesResidencial. ERROR: ' + err);
                 res.status(500).json(err);
             });
     } else {
 
-        Imoveis
+        Residencial
             .findByIdAndUpdate(id, {
                 $set: {
                     fotos: imagens.fotosSecundarias
@@ -190,7 +191,7 @@ api.updateImagesResidencial = (req, res) => {
                 res.sendStatus(204);
             }, err => {
 
-                console.log('Error at MODEL:Admin METHOD:updateImages. ERROR: ' + err);
+                console.log('Error at API:Admin METHOD:updateImagesResidencial. ERROR: ' + err);
                 res.status(500).json(err);
             });
     }
@@ -201,14 +202,14 @@ api.addImagesResidencial = (req, res) => {
     const imagens = JSON.parse(req.body.toString('utf8')),
         id = req.params.id;
 
-    Imoveis
+    Residencial
         .findByIdAndUpdate(id, {$push: {fotos: {$each: imagens}}})
         .then(data => {
 
             res.sendStatus(204);
         }, err => {
 
-            console.log('Error at MODEL:Admin METHOD:addImages. ERROR: ' + err);
+            console.log('Error at API:Admin METHOD:addImagesResidencial. ERROR: ' + err);
             res.status(500).json(err);
         })
 };
@@ -217,26 +218,32 @@ api.addImagesResidencial = (req, res) => {
 
 api.createComercial = (req, res) => {
 
+    res.end();
 };
 
 api.updateComercial = (req, res) => {
 
+    res.end();
 };
 
 api.deleteComercial = (req, res) => {
 
+    res.end();
 };
 
 api.createImagesComercial = (req, res) => {
 
+    res.end();
 };
 
 api.updateImagesComercial = (req, res) => {
 
+    res.end();
 };
 
 api.addImagesComercial = (req, res) => {
 
+    res.end();
 };
 
 module.exports = api;

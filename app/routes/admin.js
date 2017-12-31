@@ -3,24 +3,24 @@ module.exports = app => {
     let apiAdmin = app.api.admin,
         apiSite = app.api.site;
 
-    /*-------------- Residencial API --------------*/
+    /*-------------- Residencial ROUTES --------------*/
 
-    app.route('/admin/imoveis')
+    app.route('/admin/imoveis/residencial')
         .get(apiSite.listPageResidencial)
         .post(apiAdmin.createResidencial);
 
-    app.route('/admin/imoveis/:id')
+    app.route('/admin/imoveis/residencial/:id')
         .delete(apiAdmin.deleteResidencial)
         .put(apiAdmin.updateResidencial);
 
-    app.route('/admin/imoveis/images/:id')
+    app.route('/admin/imoveis/residencial/images/:id')
         .post(apiAdmin.createImagesResidencial)
         .put(apiAdmin.updateImagesResidencial);
 
-    app.route('/admin/imoveis/images/add/:id')
+    app.route('/admin/imoveis/residencial/images/add/:id')
         .put(apiAdmin.addImagesResidencial);
 
-    /*-------------- Comercial API --------------*/
+    /*-------------- Comercial ROUTES --------------*/
 
     app.route('/admin/imoveis/comercial')
         .get(apiSite.listPageComercial)

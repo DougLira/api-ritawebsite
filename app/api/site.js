@@ -1,11 +1,14 @@
 let mongoose = require('mongoose'),
-    Imoveis = mongoose.model('Imoveis'),
+    Residencial = mongoose.model('Residencial'),
+    Comercial = mongoose.model('Comercial'),
     api = {};
 
-api.collectionCount = async (search) => {
+/*-------------------- Residencial API --------------------*/
+
+api.collectionCountResidencial = async (search) => {
     let collectionSize = 0;
 
-    await Imoveis
+    await Residencial
         .count(
             {
                 $or: [
@@ -19,16 +22,16 @@ api.collectionCount = async (search) => {
             collectionSize = count;
         }, err => {
 
-            console.log('Error at MODEL:Imoveis METHOD:count. ERROR: ' + err);
+            console.log('Error at API:Residencial METHOD:collectionCountResidencial. ERROR: ' + err);
         });
 
     return collectionSize;
 };
 
-api.filterCollectionCount = async (filter) => {
+api.filterCollectionCountResidencial = async (filter) => {
     let collectionSize = 0;
 
-    await Imoveis
+    await Residencial
         .find({
             $or: [
                 {casa: filter.casa},
@@ -45,7 +48,7 @@ api.filterCollectionCount = async (filter) => {
             collectionSize = count;
         }, err => {
 
-            console.log('Error at MODEL:Imoveis METHOD:count. ERROR: ' + err);
+            console.log('Error at API:Residencial METHOD:filterCollectionCountResidencial. ERROR: ' + err);
         });
 
     return collectionSize;
@@ -64,7 +67,7 @@ api.listPageResidencial = async (req, res) => {
     /*
     * Dados da pagina requisitada
     * */
-    await Imoveis
+    await Residencial
         .find({
             $or: [
                 {anuncio: new RegExp(search, 'gi')},
@@ -78,24 +81,24 @@ api.listPageResidencial = async (req, res) => {
         .then(async imoveis => {
 
             data.content = imoveis;
-            data.collectionSize = await api.collectionCount(search);
+            data.collectionSize = await api.collectionCountResidencial(search);
         }, err => {
 
-            console.log('Error at MODEL:Imoveis METHOD:listPage. ERROR: ' + err);
+            console.log('Error at API:Residencial METHOD:listPageResidencial. ERROR: ' + err);
             res.status(500).json(err);
         });
 
     res.status(200).json(data);
 };
 
-api.filterListPage = async (req, res) => {
+api.filterListPageResidencial = async (req, res) => {
 
     let page = Math.trunc(req.query.page),
         skip = null,
         limit = 8,
         data = {},
         filter = {},
-        tipoImovel = req.query.tipo,
+        tipoImovel = req.query.tipo.toLowerCase(),
         casa = false,
         apartamento = false,
         terreno = false,
@@ -108,11 +111,11 @@ api.filterListPage = async (req, res) => {
     if (page < 0) page = 1;
     skip = (page - 1) * limit;
 
-    if (tipoImovel == 'Casa') {
+    if (tipoImovel === 'casa') {
         casa = true;
-    } else if (tipoImovel == 'Apartamento') {
+    } else if (tipoImovel === 'apartamento') {
         apartamento = true;
-    } else if (tipoImovel == 'Terreno') {
+    } else if (tipoImovel === 'terreno') {
         terreno = true;
     }
 
@@ -124,7 +127,7 @@ api.filterListPage = async (req, res) => {
     filter.valorMinimo = valorMinimo;
     filter.valorMaximo = valorMaximo;
 
-    await Imoveis
+    await Residencial
         .find({
             $or: [
                 {casa: casa},
@@ -142,20 +145,22 @@ api.filterListPage = async (req, res) => {
 
             if (err) {
 
-                console.log('Error at MODEL:Imoveis METHOD:filterListPage. ERROR: ' + err);
+                console.log('Error at API:Residencial METHOD:filterListPageResidencial. ERROR: ' + err);
                 res.status(500).json(err);
             } else {
 
                 data.content = imoveis;
-                data.collectionSize = await api.filterCollectionCount(filter);
+                data.collectionSize = await api.filterCollectionCountResidencial(filter);
                 res.status(200).json(data);
             }
         });
 };
 
+/*------------------- Comercial API ---------------------*/
+
 api.listPageComercial = (req, res) => {
 
-
+    res.end();
 };
 
 module.exports = api;

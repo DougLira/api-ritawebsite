@@ -19,46 +19,6 @@ let urlDefault = require('./default-picture'),
             }
         },
         fotos: [],
-        dormitorios: {
-            type: Number,
-            required: true,
-            default: 1
-        },
-        sala_estar:{
-            type: Number,
-            required:true,
-            default: 1
-        },
-        sala_jantar:{
-            type: Number,
-            required:true,
-            default: 0
-        },
-        suites: {
-            type: Number,
-            required: true,
-            default: 0
-        },
-        vagas: {
-            type: Number,
-            required: true,
-            default: 0
-        },
-        banheiros: {
-            type: Number,
-            required: true,
-            default: 1
-        },
-        churrasqueira: {
-            type: Boolean,
-            required: true,
-            default: 0
-        },
-        piscina: {
-            type: Boolean,
-            required: true,
-            default: 0
-        },
         area_util: {
             type: Number,
             required: true,
@@ -81,12 +41,22 @@ let urlDefault = require('./default-picture'),
             type: String,
             required: true
         },
-        casa: {
+        varejo: {
             type: Boolean,
             required: true,
             default: false
         },
-        apartamento: {
+        sala: {
+            type: Boolean,
+            required: true,
+            default: false
+        },
+        andar_corrido: {
+            type: Boolean,
+            required: true,
+            default: false
+        },
+        galpao: {
             type: Boolean,
             required: true,
             default: false
@@ -96,14 +66,9 @@ let urlDefault = require('./default-picture'),
             required: true,
             default: false
         },
-        condominio: {
-            type: Boolean,
-            required: true,
-            default: false
-        },
         descricao: {
             type: String
         }
     });
 
-mongoose.model('Imoveis', schema);
+mongoose.model('Comercial', schema);
