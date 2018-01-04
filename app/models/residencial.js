@@ -101,6 +101,11 @@ let urlDefault = require('./default-picture'),
             required: true,
             default: false
         },
+        locacao: {
+            type: Boolean,
+            required: true,
+            default: false
+        },
         descricao: {
             type: String
         }

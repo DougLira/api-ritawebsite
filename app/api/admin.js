@@ -38,6 +38,7 @@ api.createResidencial = (req, res) => {
         bairro: req.body.bairro,
         endereco: req.body.endereco,
         condominio: req.body.condominio,
+        locacao: req.body.locacao,
         casa: casa,
         apartamento: apartamento,
         terreno: terreno
@@ -91,6 +92,7 @@ api.updateResidencial = (req, res) => {
                 bairro: req.body.bairro,
                 endereco: req.body.endereco,
                 condominio: req.body.condominio,
+                locacao: req.body.locacao,
                 casa: casa,
                 apartamento: apartamento,
                 terreno: terreno
@@ -230,7 +232,10 @@ api.createComercial = (req, res) => {
         sala_comercial = true;
     } else if (req.body.tipo === 'andar_corrido') {
         andar_corrido = true;
-    } else if (req.body.tipo === 'terreno') {
+    } else if (req.body.tipo === 'galpao') {
+        galpao = true;
+    }
+    else if (req.body.tipo === 'terreno') {
         terreno = true;
     }
 
@@ -264,7 +269,50 @@ api.createComercial = (req, res) => {
 
 api.updateComercial = (req, res) => {
 
-    res.end();
+    let id = req.params.id,
+        varejo = false,
+        sala_comercial = false,
+        andar_corrido = false,
+        galpao = false,
+        terreno = false;
+
+    if (req.body.tipo === 'varejo') {
+        varejo = true;
+    } else if (req.body.tipo === 'sala_comercial') {
+        sala_comercial = true;
+    } else if (req.body.tipo === 'andar_corrido') {
+        andar_corrido = true;
+    } else if (req.body.tipo === 'galpao') {
+        galpao = true;
+    } else if (req.body.tipo === 'terreno') {
+        terreno = true;
+    }
+
+    Comercial
+        .findByIdAndUpdate(id, {
+            $set: {
+                anuncio: req.body.anuncio,
+                valor: req.body.valor,
+                area_util: req.body.area_util,
+                descricao: req.body.descricao,
+                cidade: req.body.cidade,
+                bairro: req.body.bairro,
+                endereco: req.body.endereco,
+                varejo: varejo,
+                sala_comercial: sala_comercial,
+                andar_corrido: andar_corrido,
+                galpao: galpao,
+                terreno: terreno
+            }
+        })
+        .then(data => {
+
+            res.sendStatus(204);
+        }, err => {
+
+            console.log('Error at API:Admin METHOD:updateComercial. ERROR: ' + err);
+            res.status(500).json(err);
+        });
 };
 
 api.deleteComercial = (req, res) => {
@@ -319,12 +367,60 @@ api.createImagesComercial = (req, res) => {
 
 api.updateImagesComercial = (req, res) => {
 
-    res.end();
+    const imagens = JSON.parse(req.body.toString('utf8')),
+        id = req.params.id;
+
+    if (imagens.fotoPrincipal) {
+
+        Comercial
+            .findByIdAndUpdate(id, {
+                $set: {
+                    fotoPrincipal: {url: imagens.fotoPrincipal},
+                    fotos: imagens.fotosSecundarias
+                }
+            })
+            .then(data => {
+
+                res.sendStatus(204);
+            }, err => {
+
+                console.log('Error at API:Admin METHOD:updateImagesComercial. ERROR: ' + err);
+                res.status(500).json(err);
+            });
+    } else {
+
+        Comercial
+            .findByIdAndUpdate(id, {
+                $set: {
+                    fotos: imagens.fotosSecundarias
+                }
+            })
+            .then(data => {
+
+                res.sendStatus(204);
+            }, err => {
+
+                console.log('Error at API:Admin METHOD:updateImagesComercial. ERROR: ' + err);
+                res.status(500).json(err);
+            });
+    }
 };
 
 api.addImagesComercial = (req, res) => {
 
-    res.end();
+    const imagens = JSON.parse(req.body.toString('utf8')),
+        id = req.params.id;
+
+    Comercial
+        .findByIdAndUpdate(id, {$push: {fotos: {$each: imagens}}})
+        .then(data => {
+
+            res.sendStatus(204);
+        }, err => {
+
+            console.log('Error at API:Admin METHOD:addImagesComercial. ERROR: ' + err);
+            res.status(500).json(err);
+        })
 };
 
 module.exports = api;
