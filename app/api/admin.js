@@ -8,18 +8,6 @@ let urlDefault = require('../models/default-picture'),
 
 api.createResidencial = (req, res) => {
 
-    let casa = false,
-        apartamento = false,
-        terreno = false;
-
-    if (req.body.tipo === 'casa') {
-        casa = true;
-    } else if (req.body.tipo === 'apartamento') {
-        apartamento = true;
-    } else if (req.body.tipo === 'terreno') {
-        terreno = true;
-    }
-
     let imovel = new Residencial({
         anuncio: req.body.anuncio,
         valor: req.body.valor,
@@ -38,10 +26,8 @@ api.createResidencial = (req, res) => {
         bairro: req.body.bairro,
         endereco: req.body.endereco,
         condominio: req.body.condominio,
-        locacao: req.body.locacao,
-        casa: casa,
-        apartamento: apartamento,
-        terreno: terreno
+        finalidade: req.body.finalidade,
+        tipo: req.body.tipo
     });
 
     Residencial
@@ -59,21 +45,8 @@ api.createResidencial = (req, res) => {
 
 api.updateResidencial = (req, res) => {
 
-    let id = req.params.id,
-        casa = false,
-        apartamento = false,
-        terreno = false;
-
-    if (req.body.tipo.toLowerCase() === 'casa') {
-        casa = true;
-    } else if (req.body.tipo.toLowerCase() === 'apartamento') {
-        apartamento = true;
-    } else if (req.body.tipo.toLowerCase() === 'terreno') {
-        terreno = true;
-    }
-
     Residencial
-        .findByIdAndUpdate(id, {
+        .findByIdAndUpdate(req.params.id, {
             $set: {
                 anuncio: req.body.anuncio,
                 valor: req.body.valor,
@@ -92,10 +65,8 @@ api.updateResidencial = (req, res) => {
                 bairro: req.body.bairro,
                 endereco: req.body.endereco,
                 condominio: req.body.condominio,
-                locacao: req.body.locacao,
-                casa: casa,
-                apartamento: apartamento,
-                terreno: terreno
+                finalidade: req.body.finalidade,
+                tipo: req.body.tipo
             }
         })
         .then(data => {
@@ -110,10 +81,8 @@ api.updateResidencial = (req, res) => {
 
 api.deleteResidencial = (req, res) => {
 
-    let id = req.params.id;
-
     Residencial
-        .remove({_id: id})
+        .remove({_id: req.params.id})
         .then(data => {
 
             res.sendStatus(204);
@@ -127,7 +96,6 @@ api.deleteResidencial = (req, res) => {
 api.createImagesResidencial = (req, res) => {
 
     const imagens = JSON.parse(req.body.toString('utf8')),
-        id = req.params.id,
         fotosSecundarias = [];
 
     if (!imagens.fotoPrincipal) imagens.fotoPrincipal = urlDefault;
@@ -142,7 +110,7 @@ api.createImagesResidencial = (req, res) => {
     }
 
     Residencial
-        .findByIdAndUpdate(id, {
+        .findByIdAndUpdate(req.params.id, {
             $set: {
                 fotoPrincipal: {url: imagens.fotoPrincipal},
                 fotos: fotosSecundarias
@@ -160,13 +128,12 @@ api.createImagesResidencial = (req, res) => {
 
 api.updateImagesResidencial = (req, res) => {
 
-    const imagens = JSON.parse(req.body.toString('utf8')),
-        id = req.params.id;
+    const imagens = JSON.parse(req.body.toString('utf8'));
 
     if (imagens.fotoPrincipal) {
 
         Residencial
-            .findByIdAndUpdate(id, {
+            .findByIdAndUpdate(req.params.id, {
                 $set: {
                     fotoPrincipal: {url: imagens.fotoPrincipal},
                     fotos: imagens.fotosSecundarias
@@ -183,7 +150,7 @@ api.updateImagesResidencial = (req, res) => {
     } else {
 
         Residencial
-            .findByIdAndUpdate(id, {
+            .findByIdAndUpdate(req.params.id, {
                 $set: {
                     fotos: imagens.fotosSecundarias
                 }
@@ -201,11 +168,10 @@ api.updateImagesResidencial = (req, res) => {
 
 api.addImagesResidencial = (req, res) => {
 
-    const imagens = JSON.parse(req.body.toString('utf8')),
-        id = req.params.id;
+    const imagens = JSON.parse(req.body.toString('utf8'));
 
     Residencial
-        .findByIdAndUpdate(id, {$push: {fotos: {$each: imagens}}})
+        .findByIdAndUpdate(req.params.id, {$push: {fotos: {$each: imagens}}})
         .then(data => {
 
             res.sendStatus(204);
@@ -220,25 +186,6 @@ api.addImagesResidencial = (req, res) => {
 
 api.createComercial = (req, res) => {
 
-    let varejo = false,
-        sala_comercial = false,
-        andar_corrido = false,
-        galpao = false,
-        terreno = false;
-
-    if (req.body.tipo === 'varejo') {
-        varejo = true;
-    } else if (req.body.tipo === 'sala_comercial') {
-        sala_comercial = true;
-    } else if (req.body.tipo === 'andar_corrido') {
-        andar_corrido = true;
-    } else if (req.body.tipo === 'galpao') {
-        galpao = true;
-    }
-    else if (req.body.tipo === 'terreno') {
-        terreno = true;
-    }
-
     let imovel = new Comercial({
         anuncio: req.body.anuncio,
         valor: req.body.valor,
@@ -247,11 +194,7 @@ api.createComercial = (req, res) => {
         cidade: req.body.cidade,
         bairro: req.body.bairro,
         endereco: req.body.endereco,
-        varejo: varejo,
-        sala_comercial: sala_comercial,
-        andar_corrido: andar_corrido,
-        galpao: galpao,
-        terreno: terreno
+        tipo: req.body.tipo
     });
 
     Comercial
@@ -269,25 +212,6 @@ api.createComercial = (req, res) => {
 
 api.updateComercial = (req, res) => {
 
-    let id = req.params.id,
-        varejo = false,
-        sala_comercial = false,
-        andar_corrido = false,
-        galpao = false,
-        terreno = false;
-
-    if (req.body.tipo === 'varejo') {
-        varejo = true;
-    } else if (req.body.tipo === 'sala_comercial') {
-        sala_comercial = true;
-    } else if (req.body.tipo === 'andar_corrido') {
-        andar_corrido = true;
-    } else if (req.body.tipo === 'galpao') {
-        galpao = true;
-    } else if (req.body.tipo === 'terreno') {
-        terreno = true;
-    }
-
     Comercial
         .findByIdAndUpdate(id, {
             $set: {
@@ -298,11 +222,7 @@ api.updateComercial = (req, res) => {
                 cidade: req.body.cidade,
                 bairro: req.body.bairro,
                 endereco: req.body.endereco,
-                varejo: varejo,
-                sala_comercial: sala_comercial,
-                andar_corrido: andar_corrido,
-                galpao: galpao,
-                terreno: terreno
+                tipo: req.body.tipo
             }
         })
         .then(data => {
@@ -317,10 +237,8 @@ api.updateComercial = (req, res) => {
 
 api.deleteComercial = (req, res) => {
 
-    let id = req.params.id;
-
     Comercial
-        .remove({_id: id})
+        .remove({_id: req.params.id})
         .then(data => {
 
             res.sendStatus(204);
@@ -334,7 +252,6 @@ api.deleteComercial = (req, res) => {
 api.createImagesComercial = (req, res) => {
 
     const imagens = JSON.parse(req.body.toString('utf8')),
-        id = req.params.id,
         fotosSecundarias = [];
 
     if (!imagens.fotoPrincipal) imagens.fotoPrincipal = urlDefault;
@@ -349,7 +266,7 @@ api.createImagesComercial = (req, res) => {
     }
 
     Comercial
-        .findByIdAndUpdate(id, {
+        .findByIdAndUpdate(req.params.id, {
             $set: {
                 fotoPrincipal: {url: imagens.fotoPrincipal},
                 fotos: fotosSecundarias
@@ -367,13 +284,12 @@ api.createImagesComercial = (req, res) => {
 
 api.updateImagesComercial = (req, res) => {
 
-    const imagens = JSON.parse(req.body.toString('utf8')),
-        id = req.params.id;
+    const imagens = JSON.parse(req.body.toString('utf8'));
 
     if (imagens.fotoPrincipal) {
 
         Comercial
-            .findByIdAndUpdate(id, {
+            .findByIdAndUpdate(req.params.id, {
                 $set: {
                     fotoPrincipal: {url: imagens.fotoPrincipal},
                     fotos: imagens.fotosSecundarias
@@ -390,7 +306,7 @@ api.updateImagesComercial = (req, res) => {
     } else {
 
         Comercial
-            .findByIdAndUpdate(id, {
+            .findByIdAndUpdate(req.params.id, {
                 $set: {
                     fotos: imagens.fotosSecundarias
                 }
@@ -408,11 +324,10 @@ api.updateImagesComercial = (req, res) => {
 
 api.addImagesComercial = (req, res) => {
 
-    const imagens = JSON.parse(req.body.toString('utf8')),
-        id = req.params.id;
+    const imagens = JSON.parse(req.body.toString('utf8'));
 
     Comercial
-        .findByIdAndUpdate(id, {$push: {fotos: {$each: imagens}}})
+        .findByIdAndUpdate(req.params.id, {$push: {fotos: {$each: imagens}}})
         .then(data => {
 
             res.sendStatus(204);

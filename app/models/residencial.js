@@ -81,30 +81,18 @@ let urlDefault = require('./default-picture'),
             type: String,
             required: true
         },
-        casa: {
-            type: Boolean,
-            required: true,
-            default: false
-        },
-        apartamento: {
-            type: Boolean,
-            required: true,
-            default: false
-        },
-        terreno: {
-            type: Boolean,
-            required: true,
-            default: false
+        tipo: {
+            type: String,
+            required: true
         },
         condominio: {
             type: Boolean,
             required: true,
             default: false
         },
-        locacao: {
-            type: Boolean,
-            required: true,
-            default: false
+        finalidade: {
+            type: String,
+            required: true
         },
         descricao: {
             type: String

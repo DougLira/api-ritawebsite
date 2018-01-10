@@ -36,30 +36,9 @@ let urlDefault = require('./default-picture'),
             type: String,
             required: true
         },
-        varejo: {
-            type: Boolean,
-            required: true,
-            default: false
-        },
-        sala_comercial: {
-            type: Boolean,
-            required: true,
-            default: false
-        },
-        andar_corrido: {
-            type: Boolean,
-            required: true,
-            default: false
-        },
-        galpao: {
-            type: Boolean,
-            required: true,
-            default: false
-        },
-        terreno: {
-            type: Boolean,
-            required: true,
-            default: false
+        tipo: {
+            type: String,
+            required: true
         },
         descricao: {
             type: String

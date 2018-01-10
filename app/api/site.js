@@ -33,11 +33,8 @@ api.filterCollectionCountResidencial = async (filter) => {
 
     await Residencial
         .find({
-            $or: [
-                {casa: filter.casa},
-                {apartamento: filter.apartamento},
-                {terreno: filter.terreno}
-            ],
+            finalidade: filter.finalidade,
+            tipo: filter.tipo,
             valor: {$gte: parseFloat(filter.valorMinimo), $lte: parseFloat(filter.valorMaximo)}
         })
         .count()
@@ -96,51 +93,28 @@ api.filterListPageResidencial = async (req, res) => {
         limit = 8,
         data = {},
         filter = {},
-        tipoImovel = req.query.tipo.toLowerCase(),
-        casa = null,
-        apartamento = null,
-        terreno = null,
-        locacao = req.query.locacao.toString(),
+        tipo = req.query.tipo.toLowerCase(),
+        finalidade = req.query.finalidade.toLowerCase(),
         valorMinimo = req.query.minimo ? req.query.minimo : 1000,
         valorMaximo = req.query.maximo ? req.query.maximo : 2000000;
 
     if (page < 0) page = 1;
     skip = (page - 1) * limit;
 
-    if (tipoImovel === 'casa') {
-        casa = true;
-    } else if (tipoImovel === 'apartamento') {
-        apartamento = true;
-    } else if (tipoImovel === 'terreno') {
-        terreno = true;
-    }
-
-    if (locacao === 'venda') {
-        locacao = false;
-    } else {
-        locacao = true;
-    }
-
-    filter.casa = casa;
-    filter.apartamento = apartamento;
-    filter.terreno = terreno;
-    filter.locacao = locacao;
+    filter.tipo = tipo;
+    filter.finalidade = finalidade;
     filter.valorMinimo = valorMinimo;
     filter.valorMaximo = valorMaximo;
 
     await Residencial
         .find({
-            locacao: locacao,
+            finalidade: finalidade,
             valor: {
                 $gte: parseFloat(valorMinimo),
                 $lte: parseFloat(valorMaximo)
-            }
+            },
+            tipo: tipo
         })
-        .or([
-            {casa: casa},
-            {apartamento: apartamento},
-            {terreno: terreno}
-        ])
         .sort({$natural: -1})
         .skip(skip)
         .exec(async (err, imoveis) => {
@@ -188,13 +162,7 @@ api.filterCollectionCountComercial = async (filter) => {
 
     await Comercial
         .find({
-            $or: [
-                {varejo: filter.varejo},
-                {andar_corrido: filter.andar_corrido},
-                {sala_comercial: filter.sala_comercial},
-                {terreno: filter.terreno},
-                {galpao: filter.galpao}
-            ],
+            tipo: filter.tipo,
             valor: {$gte: parseFloat(filter.valorMinimo), $lte: parseFloat(filter.valorMaximo)}
         })
         .count()
@@ -253,12 +221,7 @@ api.filterListPageComercial = async (req, res) => {
         limit = 8,
         data = {},
         filter = {},
-        tipoImovel = req.query.tipo.toLowerCase(),
-        varejo = false,
-        sala_comercial = false,
-        andar_corrido = false,
-        galpao = false,
-        terreno = false,
+        tipo = req.query.tipo.toLowerCase(),
         valorMinimo = req.query.minimo ? req.query.minimo : 1000,
         valorMaximo = req.query.maximo ? req.query.maximo : 2000000;
 
@@ -266,20 +229,7 @@ api.filterListPageComercial = async (req, res) => {
     if (page < 0) page = 1;
     skip = (page - 1) * limit;
 
-    if (tipoImovel === 'varejo') {
-        varejo = true;
-    } else if (tipoImovel === 'sala_comercial') {
-        sala_comercial = true;
-    } else if (tipoImovel === 'andar_corrido') {
-        andar_corrido = true;
-    } else if (tipoImovel === 'terreno') {
-        terreno = true;
-    }
-
-    filter.varejo = varejo;
-    filter.sala_comercial = sala_comercial;
-    filter.andar_corrido = andar_corrido;
-    filter.galpao = galpao;
+    filter.tipo = tipo;
     filter.terreno = terreno;
     filter.valorMinimo = valorMinimo;
     filter.valorMaximo = valorMaximo;
@@ -287,13 +237,7 @@ api.filterListPageComercial = async (req, res) => {
     await
         Comercial
             .find({
-                $or: [
-                    {varejo: varejo},
-                    {sala_comercial: sala_comercial},
-                    {andar_corrido: andar_corrido},
-                    {galpao: galpao},
-                    {terreno: terreno}
-                ],
+                tipo: tipo,
                 valor: {$gte: parseFloat(valorMinimo), $lte: parseFloat(valorMaximo)}
             })
             .limit(limit)
