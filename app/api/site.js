@@ -97,13 +97,12 @@ api.filterListPageResidencial = async (req, res) => {
         data = {},
         filter = {},
         tipoImovel = req.query.tipo.toLowerCase(),
-        casa = false,
-        apartamento = false,
-        terreno = false,
+        casa = null,
+        apartamento = null,
+        terreno = null,
         locacao = req.query.locacao.toString(),
         valorMinimo = req.query.minimo ? req.query.minimo : 1000,
         valorMaximo = req.query.maximo ? req.query.maximo : 2000000;
-
 
     if (page < 0) page = 1;
     skip = (page - 1) * limit;
@@ -116,7 +115,7 @@ api.filterListPageResidencial = async (req, res) => {
         terreno = true;
     }
 
-    if (locacao === 'venda'){
+    if (locacao === 'venda') {
         locacao = false;
     } else {
         locacao = true;
@@ -131,15 +130,17 @@ api.filterListPageResidencial = async (req, res) => {
 
     await Residencial
         .find({
-            $or: [
-                {casa: casa},
-                {apartamento: apartamento},
-                {terreno: terreno}
-            ],
             locacao: locacao,
-            valor: {$gte: parseFloat(valorMinimo), $lte: parseFloat(valorMaximo)}
+            valor: {
+                $gte: parseFloat(valorMinimo),
+                $lte: parseFloat(valorMaximo)
+            }
         })
-        .limit(limit)
+        .or([
+            {casa: casa},
+            {apartamento: apartamento},
+            {terreno: terreno}
+        ])
         .sort({$natural: -1})
         .skip(skip)
         .exec(async (err, imoveis) => {
