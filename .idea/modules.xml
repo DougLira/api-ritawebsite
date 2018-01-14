@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/api-ritawebsite.iml" filepath="$PROJECT_DIR$/.idea/api-ritawebsite.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/api-ritawebsite.iml" filepath="$PROJECT_DIR$/.idea/api-ritawebsite.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/server-ritawebsite.iml" filepath="$PROJECT_DIR$/.idea/server-ritawebsite.iml" />
     </modules>
   </component>

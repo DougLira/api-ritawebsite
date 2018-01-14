@@ -7,11 +7,13 @@ module.exports = app => {
 
     api.authenticate = (req, res) => {
 
+        console.log(req.body);
         console.log('Tentativa de autenticação...');
         User
             .findOne(req.body)
             .then(user => {
 
+                console.log(user);
                 if (!user) {
 
                     console.log('Login ou senha inválidos.');

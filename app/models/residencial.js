@@ -87,7 +87,6 @@ let urlDefault = require('./default-picture'),
         },
         condominio: {
             type: Boolean,
-            required: true,
             default: false
         },
         finalidade: {

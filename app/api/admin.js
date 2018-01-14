@@ -17,15 +17,15 @@ api.createResidencial = (req, res) => {
         suites: req.body.suites,
         vagas: req.body.vagas,
         banheiros: req.body.banheiros,
-        churrasqueira: req.body.churrasqueira? req.body.churrasqueira : false,
-        piscina: req.body.piscina? req.body.piscina : false,
+        churrasqueira: req.body.churrasqueira || false,
+        piscina: req.body.piscina || false,
         area_util: req.body.area_util,
         area_construida: req.body.area_construida,
         descricao: req.body.descricao,
         cidade: req.body.cidade,
         bairro: req.body.bairro,
         endereco: req.body.endereco,
-        condominio: req.body.condominio,
+        condominio: req.body.condominio || false,
         finalidade: req.body.finalidade,
         tipo: req.body.tipo
     });
