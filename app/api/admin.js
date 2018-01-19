@@ -39,7 +39,7 @@ api.createResidencial = (req, res) => {
         }, err => {
 
             console.log('Error at API:Admin METHOD:createResidencial. ERROR: ' + err);
-            res.status(500).json(err);
+            res.status(400).json(err);
         });
 };
 
@@ -75,7 +75,7 @@ api.updateResidencial = (req, res) => {
         }, err => {
 
             console.log('Error at API:Admin METHOD:updateResidencial. ERROR: ' + err);
-            res.status(500).json(err);
+            res.status(400).json(err);
         });
 };
 
@@ -89,7 +89,7 @@ api.deleteResidencial = (req, res) => {
         }, err => {
 
             console.log('Error at API:Admin METHOD:deleteResidencial. ERROR: ' + err);
-            res.status(500).json(err);
+            res.status(400).json(err);
         })
 };
 
@@ -122,7 +122,7 @@ api.createImagesResidencial = (req, res) => {
         }, err => {
 
             console.log('Error at API:Admin METHOD:createImagesResidencial. ERROR: ' + err);
-            res.status(500).json(err);
+            res.status(400).json(err);
         });
 };
 
@@ -145,7 +145,7 @@ api.updateImagesResidencial = (req, res) => {
             }, err => {
 
                 console.log('Error at API:Admin METHOD:updateImagesResidencial. ERROR: ' + err);
-                res.status(500).json(err);
+                res.status(400).json(err);
             });
     } else {
 
@@ -161,7 +161,7 @@ api.updateImagesResidencial = (req, res) => {
             }, err => {
 
                 console.log('Error at API:Admin METHOD:updateImagesResidencial. ERROR: ' + err);
-                res.status(500).json(err);
+                res.status(400).json(err);
             });
     }
 };
@@ -178,7 +178,7 @@ api.addImagesResidencial = (req, res) => {
         }, err => {
 
             console.log('Error at API:Admin METHOD:addImagesResidencial. ERROR: ' + err);
-            res.status(500).json(err);
+            res.status(400).json(err);
         })
 };
 
@@ -206,7 +206,7 @@ api.createComercial = (req, res) => {
         }, err => {
 
             console.log('Error at API:Admin METHOD:createComercial. ERROR: ' + err);
-            res.status(500).json(err);
+            res.status(400).json(err);
         });
 };
 
@@ -231,7 +231,7 @@ api.updateComercial = (req, res) => {
         }, err => {
 
             console.log('Error at API:Admin METHOD:updateComercial. ERROR: ' + err);
-            res.status(500).json(err);
+            res.status(400).json(err);
         });
 };
 
@@ -245,7 +245,7 @@ api.deleteComercial = (req, res) => {
         }, err => {
 
             console.log('Error at API:Admin METHOD:deleteComercial. ERROR: ' + err);
-            res.status(500).json(err);
+            res.status(400).json(err);
         })
 };
 
@@ -278,7 +278,7 @@ api.createImagesComercial = (req, res) => {
         }, err => {
 
             console.log('Error at API:Admin METHOD:createImagesComercial. ERROR: ' + err);
-            res.status(500).json(err);
+            res.status(400).json(err);
         });
 };
 
@@ -301,7 +301,7 @@ api.updateImagesComercial = (req, res) => {
             }, err => {
 
                 console.log('Error at API:Admin METHOD:updateImagesComercial. ERROR: ' + err);
-                res.status(500).json(err);
+                res.status(400).json(err);
             });
     } else {
 
@@ -317,7 +317,7 @@ api.updateImagesComercial = (req, res) => {
             }, err => {
 
                 console.log('Error at API:Admin METHOD:updateImagesComercial. ERROR: ' + err);
-                res.status(500).json(err);
+                res.status(400).json(err);
             });
     }
 };
@@ -334,7 +334,7 @@ api.addImagesComercial = (req, res) => {
         }, err => {
 
             console.log('Error at API:Admin METHOD:addImagesComercial. ERROR: ' + err);
-            res.status(500).json(err);
+            res.status(400).json(err);
         })
 };
 

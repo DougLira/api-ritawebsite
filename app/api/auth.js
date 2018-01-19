@@ -66,7 +66,7 @@ module.exports = app => {
         } else {
 
             console.log('Token não presente.');
-            res.sendStatus(401);
+            res.sendStatus(500);
         }
     };
 
