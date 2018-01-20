@@ -197,7 +197,8 @@ api.createComercial = (req, res) => {
         bairro: req.body.bairro,
         endereco: req.body.endereco,
         tipo: req.body.tipo,
-        lancamento: req.body.lancamento
+        lancamento: req.body.lancamento,
+        finalidade: req.body.finalidade
     });
 
     Comercial
@@ -226,7 +227,8 @@ api.updateComercial = (req, res) => {
                 bairro: req.body.bairro,
                 endereco: req.body.endereco,
                 tipo: req.body.tipo,
-                lancamento: req.body.lancamento
+                lancamento: req.body.lancamento,
+                finalidade: req.body.finalidade
             }
         })
         .then(data => {

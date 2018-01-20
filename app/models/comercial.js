@@ -40,6 +40,10 @@ let urlDefault = require('./default-picture'),
             type: String,
             required: true
         },
+        finalidade: {
+            type: String,
+            required: true
+        },
         descricao: {
             type: String
         },

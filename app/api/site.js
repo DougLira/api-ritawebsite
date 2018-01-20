@@ -340,7 +340,7 @@ api.filterCollectionCountLancamentos = async (filter) => {
 api.listPageLancamentos = async (req, res) => {
 
     let page = Math.trunc(req.query.page),
-        imoveisDataBase = new Array(),
+        imoveisDataBase = [],
         skip = null,
         limit = 8,
         data = {};
@@ -359,6 +359,13 @@ api.listPageLancamentos = async (req, res) => {
         .skip(skip)
         .then(async imoveis => {
 
+            console.log('Buscando lancamentos residenciais');
+            console.log(Array.isArray(imoveis));
+            if (Array.isArray(imoveis)) {
+
+                imoveisDataBase = imoveis;
+                return;
+            }
             imoveisDataBase.push(imoveis);
         }, err => {
 
@@ -375,6 +382,14 @@ api.listPageLancamentos = async (req, res) => {
         .skip(skip)
         .then(async imoveis => {
 
+            console.log('Buscando lancamentos comerciais');
+            if (Array.isArray(imoveis)) {
+
+                console.log('CONCAT nessa merda.');
+                imoveisDataBase = imoveisDataBase.concat(imoveis);
+                return;
+            }
+            console.log('PUSH nessa merda.');
             imoveisDataBase.push(imoveis);
         }, err => {
 
