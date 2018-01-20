@@ -13,4 +13,10 @@ module.exports = function (app) {
 
     app.route('/imoveis/comercial/filter')
         .get(api.filterListPageComercial);
+
+    app.route('/imoveis/lancamentos')
+        .get(api.listPageLancamentos);
+
+    app.route('/imoveis/lancamentos/filter')
+        .get(api.filterListPageLancamentos);
 };

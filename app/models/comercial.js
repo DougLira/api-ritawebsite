@@ -42,6 +42,10 @@ let urlDefault = require('./default-picture'),
         },
         descricao: {
             type: String
+        },
+        lancamento: {
+            type: Boolean,
+            default: false
         }
     });
 

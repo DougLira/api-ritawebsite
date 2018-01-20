@@ -15,7 +15,8 @@ api.collectionCountResidencial = async (search) => {
                     {'anuncio': new RegExp(search, 'gi')},
                     {'cidade': new RegExp(search, 'gi')},
                     {'bairro': new RegExp(search, 'gi')}
-                ]
+                ],
+                lancamento: false
             })
         .then(count => {
 
@@ -35,7 +36,8 @@ api.filterCollectionCountResidencial = async (filter) => {
         .find({
             finalidade: filter.finalidade,
             tipo: filter.tipo,
-            valor: {$gte: parseFloat(filter.valorMinimo), $lte: parseFloat(filter.valorMaximo)}
+            valor: {$gte: parseFloat(filter.valorMinimo), $lte: parseFloat(filter.valorMaximo)},
+            lancamento: false
         })
         .count()
         .then(count => {
@@ -68,7 +70,8 @@ api.listPageResidencial = async (req, res) => {
                 {anuncio: new RegExp(search, 'gi')},
                 {cidade: new RegExp(search, 'gi')},
                 {bairro: new RegExp(search, 'gi')}
-            ]
+            ],
+            lancamento: false
         })
         .limit(limit)
         .sort({$natural: -1})
@@ -113,7 +116,8 @@ api.filterListPageResidencial = async (req, res) => {
                 $gte: parseFloat(valorMinimo),
                 $lte: parseFloat(valorMaximo)
             },
-            tipo: tipo
+            tipo: tipo,
+            lancamento: false
         })
         .sort({$natural: -1})
         .skip(skip)
@@ -144,7 +148,8 @@ api.collectionCountComercial = async (search) => {
                     {'anuncio': new RegExp(search, 'gi')},
                     {'cidade': new RegExp(search, 'gi')},
                     {'bairro': new RegExp(search, 'gi')}
-                ]
+                ],
+                lancamento: false
             })
         .then(count => {
 
@@ -163,7 +168,8 @@ api.filterCollectionCountComercial = async (filter) => {
     await Comercial
         .find({
             tipo: filter.tipo,
-            valor: {$gte: parseFloat(filter.valorMinimo), $lte: parseFloat(filter.valorMaximo)}
+            valor: {$gte: parseFloat(filter.valorMinimo), $lte: parseFloat(filter.valorMaximo)},
+            lancamento: false
         })
         .count()
         .then(count => {
@@ -196,7 +202,8 @@ api.listPageComercial = async (req, res) => {
                 {anuncio: new RegExp(search, 'gi')},
                 {cidade: new RegExp(search, 'gi')},
                 {bairro: new RegExp(search, 'gi')}
-            ]
+            ],
+            lancamento: false
         })
         .limit(limit)
         .sort({$natural: -1})
@@ -238,7 +245,8 @@ api.filterListPageComercial = async (req, res) => {
         Comercial
             .find({
                 tipo: tipo,
-                valor: {$gte: parseFloat(valorMinimo), $lte: parseFloat(valorMaximo)}
+                valor: {$gte: parseFloat(valorMinimo), $lte: parseFloat(valorMaximo)},
+                lancamento: false
             })
             .limit(limit)
             .sort({$natural: -1})
@@ -256,6 +264,188 @@ api.filterListPageComercial = async (req, res) => {
                     res.status(200).json(data);
                 }
             });
+};
+
+
+/*------------------- Lançamentos API ---------------------*/
+
+api.collectionCountLancamentos = async () => {
+    let collectionSize = 0;
+
+    await Residencial
+        .count(
+            {
+                lancamento: true
+            })
+        .then(count => {
+
+            collectionSize = count;
+        }, err => {
+
+            console.log('Error at API:Lancamentos METHOD:collectionCountLancamentos. ERROR: ' + err);
+        });
+
+    await Comercial
+        .count(
+            {
+                lancamento: true
+            })
+        .then(count => {
+
+            collectionSize += count;
+        }, err => {
+
+            console.log('Error at API:Lancamentos METHOD:collectionCountLancamentos. ERROR: ' + err);
+        });
+
+    return collectionSize;
+};
+
+api.filterCollectionCountLancamentos = async (filter) => {
+    let collectionSize = 0;
+
+    if (filter.residencial === true) {
+
+        await Residencial
+            .find({
+                lancamento: true
+            })
+            .count()
+            .then(count => {
+
+                collectionSize = count;
+            }, err => {
+
+                console.log('Error at API:Lancamentos METHOD:filterCollectionCountLancamentos. ERROR: ' + err);
+            });
+    } else if (filter.comercial === true) {
+
+        await Comercial
+            .count(
+                {
+                    lancamento: true
+                })
+            .then(count => {
+
+                collectionSize += count;
+            }, err => {
+
+                console.log('Error at API:Lancamentos METHOD:collectionCountLancamentos. ERROR: ' + err);
+            });
+    }
+
+    return collectionSize;
+};
+
+api.listPageLancamentos = async (req, res) => {
+
+    let page = Math.trunc(req.query.page),
+        imoveisDataBase = new Array(),
+        skip = null,
+        limit = 8,
+        data = {};
+    if (page < 0) page = 1;
+    skip = (page - 1) * limit;
+
+    /*
+    * Dados da pagina requisitada
+    * */
+    await Residencial
+        .find({
+            lancamento: true
+        })
+        .limit(limit / 2)
+        .sort({$natural: -1})
+        .skip(skip)
+        .then(async imoveis => {
+
+            imoveisDataBase.push(imoveis);
+        }, err => {
+
+            console.log('Error at API:Lancamentos METHOD:listPageLancamentos. ERROR: ' + err);
+            res.status(500).json(err);
+        });
+
+    await Comercial
+        .find({
+            lancamento: true
+        })
+        .limit(limit / 2)
+        .sort({$natural: -1})
+        .skip(skip)
+        .then(async imoveis => {
+
+            imoveisDataBase.push(imoveis);
+        }, err => {
+
+            console.log('Error at API:Lancamentos METHOD:listPageLancamentos. ERROR: ' + err);
+            res.status(500).json(err);
+        });
+
+    data.content = imoveisDataBase;
+    data.collectionSize = await api.collectionCountLancamentos();
+
+    res.status(200).json(data);
+};
+
+api.filterListPageLancamentos = async (req, res) => {
+
+    let page = Math.trunc(req.query.page),
+        skip = null,
+        limit = 8,
+        data = {};
+
+    if (page < 0) page = 1;
+    skip = (page - 1) * limit;
+
+    if (req.body.residencial === true) {
+
+        await
+            Residencial
+                .find({
+                    lancamento: true
+                })
+                .limit(limit)
+                .sort({$natural: -1})
+                .skip(skip)
+                .exec(async (err, imoveis) => {
+
+                    if (err) {
+
+                        console.log('Error at API:Lancamentos METHOD:filterListPageLancamentos. ERROR: ' + err);
+                        res.status(500).json(err);
+                    } else {
+
+                        data.content = imoveis;
+                        data.collectionSize = await api.filterCollectionLancamentos(req.body);
+                        res.status(200).json(data);
+                    }
+                });
+
+    } else if (req.body.comercial === true) {
+
+        await
+            Comercial
+                .find({
+                    lancamento: true
+                })
+                .limit(limit)
+                .sort({$natural: -1})
+                .skip(skip)
+                .exec(async (err, imoveis) => {
+
+                    if (err) {
+
+                        console.log('Error at API:Lancamentos METHOD:filterListPageLancamentos. ERROR: ' + err);
+                        res.status(500).json(err);
+                    } else {
+
+                        data.content = imoveis;
+                        data.collectionSize = await api.filterCollectionLancamentos(req.body);
+                        res.status(200).json(data);
+                    }
+                });
+    }
 };
 
 module.exports = api;

@@ -26,6 +26,7 @@ api.createResidencial = (req, res) => {
         bairro: req.body.bairro,
         endereco: req.body.endereco,
         condominio: req.body.condominio || false,
+        lancamento: req.body.lancamento || false,
         finalidade: req.body.finalidade,
         tipo: req.body.tipo
     });
@@ -65,6 +66,7 @@ api.updateResidencial = (req, res) => {
                 bairro: req.body.bairro,
                 endereco: req.body.endereco,
                 condominio: req.body.condominio,
+                lancamento: req.body.lancamento,
                 finalidade: req.body.finalidade,
                 tipo: req.body.tipo
             }
@@ -194,7 +196,8 @@ api.createComercial = (req, res) => {
         cidade: req.body.cidade,
         bairro: req.body.bairro,
         endereco: req.body.endereco,
-        tipo: req.body.tipo
+        tipo: req.body.tipo,
+        lancamento: req.body.lancamento
     });
 
     Comercial
@@ -222,7 +225,8 @@ api.updateComercial = (req, res) => {
                 cidade: req.body.cidade,
                 bairro: req.body.bairro,
                 endereco: req.body.endereco,
-                tipo: req.body.tipo
+                tipo: req.body.tipo,
+                lancamento: req.body.lancamento
             }
         })
         .then(data => {
