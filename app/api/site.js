@@ -359,8 +359,6 @@ api.listPageLancamentos = async (req, res) => {
         .skip(skip)
         .then(async imoveis => {
 
-            console.log('Buscando lancamentos residenciais');
-            console.log(Array.isArray(imoveis));
             if (Array.isArray(imoveis)) {
 
                 imoveisDataBase = imoveis;
@@ -382,14 +380,11 @@ api.listPageLancamentos = async (req, res) => {
         .skip(skip)
         .then(async imoveis => {
 
-            console.log('Buscando lancamentos comerciais');
             if (Array.isArray(imoveis)) {
 
-                console.log('CONCAT nessa merda.');
                 imoveisDataBase = imoveisDataBase.concat(imoveis);
                 return;
             }
-            console.log('PUSH nessa merda.');
             imoveisDataBase.push(imoveis);
         }, err => {
 
@@ -413,7 +408,7 @@ api.filterListPageLancamentos = async (req, res) => {
     if (page < 0) page = 1;
     skip = (page - 1) * limit;
 
-    if (req.body.residencial === true) {
+    if (req.query.residencial === 'true') {
 
         await
             Residencial
@@ -431,13 +426,14 @@ api.filterListPageLancamentos = async (req, res) => {
                         res.status(500).json(err);
                     } else {
 
+                        console.log('FILTRANDO RESIDENCIAL');
                         data.content = imoveis;
-                        data.collectionSize = await api.filterCollectionLancamentos(req.body);
+                        data.collectionSize = await api.filterCollectionCountLancamentos(req.filter);
                         res.status(200).json(data);
                     }
                 });
 
-    } else if (req.body.comercial === true) {
+    } else if (req.query.comercial === 'true') {
 
         await
             Comercial
@@ -455,8 +451,9 @@ api.filterListPageLancamentos = async (req, res) => {
                         res.status(500).json(err);
                     } else {
 
+                        console.log('FILTRANDO COMERCIAL');
                         data.content = imoveis;
-                        data.collectionSize = await api.filterCollectionLancamentos(req.body);
+                        data.collectionSize = await api.filterCollectionCountLancamentos(req.filter);
                         res.status(200).json(data);
                     }
                 });

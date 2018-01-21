@@ -217,7 +217,7 @@ api.createComercial = (req, res) => {
 api.updateComercial = (req, res) => {
 
     Comercial
-        .findByIdAndUpdate(id, {
+        .findByIdAndUpdate(req.params.id, {
             $set: {
                 anuncio: req.body.anuncio,
                 valor: req.body.valor,

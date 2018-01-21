@@ -36,4 +36,5 @@ module.exports = app => {
 
     app.route('/admin/imoveis/comercial/images/add/:id')
         .put(apiAdmin.addImagesComercial);
+
 };
