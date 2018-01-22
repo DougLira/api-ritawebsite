@@ -13,7 +13,7 @@ module.exports = function (uri) {
     });
 
     mongoose.connection.on('disconnected', function (err) {
-        console.log('Desconectado do MongoDB');
+        console.log('Desconectado do MongoDB. Erro: ' + err);
     });
 
     /*

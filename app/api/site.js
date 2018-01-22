@@ -426,7 +426,6 @@ api.filterListPageLancamentos = async (req, res) => {
                         res.status(500).json(err);
                     } else {
 
-                        console.log('FILTRANDO RESIDENCIAL');
                         data.content = imoveis;
                         data.collectionSize = await api.filterCollectionCountLancamentos(req.filter);
                         res.status(200).json(data);
@@ -451,7 +450,6 @@ api.filterListPageLancamentos = async (req, res) => {
                         res.status(500).json(err);
                     } else {
 
-                        console.log('FILTRANDO COMERCIAL');
                         data.content = imoveis;
                         data.collectionSize = await api.filterCollectionCountLancamentos(req.filter);
                         res.status(200).json(data);
