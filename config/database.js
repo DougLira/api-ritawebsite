@@ -1,8 +1,13 @@
 module.exports = function (uri) {
 
     const mongoose = require('mongoose');
+    const options = {
+        useMongoClient: true,
+        reconnectTries: Number.MAX_VALUE,
+        reconnectInterval: 500
+    };
 
-    mongoose.connect(`mongodb://${uri}`, {useMongoClient: true});
+    mongoose.connect(`mongodb://${uri}`, options);
 
     mongoose.connection.on('connected', function () {
         console.log('Conectado ao MongoDB');
