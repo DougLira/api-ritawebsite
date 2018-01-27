@@ -168,6 +168,7 @@ api.filterCollectionCountComercial = async (filter) => {
     await Comercial
         .find({
             tipo: filter.tipo,
+            finalidade: filter.finalidade,
             valor: {$gte: parseFloat(filter.valorMinimo), $lte: parseFloat(filter.valorMaximo)},
             lancamento: false
         })
@@ -228,7 +229,8 @@ api.filterListPageComercial = async (req, res) => {
         limit = 8,
         data = {},
         filter = {},
-        tipo = req.query.tipo.toLowerCase(),
+        tipo = req.query.tipo,
+        finalidade = req.query.finalidade,
         valorMinimo = req.query.minimo ? req.query.minimo : 1000,
         valorMaximo = req.query.maximo ? req.query.maximo : 2000000;
 
@@ -237,14 +239,16 @@ api.filterListPageComercial = async (req, res) => {
     skip = (page - 1) * limit;
 
     filter.tipo = tipo;
-    filter.terreno = terreno;
+    filter.finalidade = finalidade;
     filter.valorMinimo = valorMinimo;
     filter.valorMaximo = valorMaximo;
 
+    console.log(filter);
     await
         Comercial
             .find({
                 tipo: tipo,
+                finalidade: finalidade,
                 valor: {$gte: parseFloat(valorMinimo), $lte: parseFloat(valorMaximo)},
                 lancamento: false
             })
