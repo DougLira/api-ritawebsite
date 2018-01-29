@@ -496,13 +496,12 @@ api.sendMail = async (req, res) => {
     transporter.sendMail(email, (err, result) => {
 
         if (err) {
-            console.log(err)
-            res.sendStatus(500);
-            return
+            console.log(err);
+            res.status(500).json(false);
         }
 
-        console.log('Mensagem enviada!!! ' + JSON.stringify(result))
-        res.sendStatus(200);
+        console.log('Mensagem enviada!!!');
+        res.status(200).json(true);
     })
 };
 
