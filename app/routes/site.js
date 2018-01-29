@@ -19,4 +19,7 @@ module.exports = function (app) {
 
     app.route('/imoveis/lancamentos/filter')
         .get(api.filterListPageLancamentos);
+
+    app.route('/duvida')
+        .post(api.sendMail)
 };

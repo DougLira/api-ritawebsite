@@ -1,4 +1,5 @@
 let mongoose = require('mongoose'),
+    nodemailer = require('nodemailer'),
     Residencial = mongoose.model('Residencial'),
     Comercial = mongoose.model('Comercial'),
     api = {};
@@ -10,14 +11,14 @@ api.collectionCountResidencial = async (search) => {
 
     await Residencial
         .count(
-            {
-                $or: [
-                    {'anuncio': new RegExp(search, 'gi')},
-                    {'cidade': new RegExp(search, 'gi')},
-                    {'bairro': new RegExp(search, 'gi')}
-                ],
-                lancamento: false
-            })
+        {
+            $or: [
+                { 'anuncio': new RegExp(search, 'gi') },
+                { 'cidade': new RegExp(search, 'gi') },
+                { 'bairro': new RegExp(search, 'gi') }
+            ],
+            lancamento: false
+        })
         .then(count => {
 
             collectionSize = count;
@@ -36,7 +37,7 @@ api.filterCollectionCountResidencial = async (filter) => {
         .find({
             finalidade: filter.finalidade,
             tipo: filter.tipo,
-            valor: {$gte: parseFloat(filter.valorMinimo), $lte: parseFloat(filter.valorMaximo)},
+            valor: { $gte: parseFloat(filter.valorMinimo), $lte: parseFloat(filter.valorMaximo) },
             lancamento: false
         })
         .count()
@@ -67,14 +68,14 @@ api.listPageResidencial = async (req, res) => {
     await Residencial
         .find({
             $or: [
-                {anuncio: new RegExp(search, 'gi')},
-                {cidade: new RegExp(search, 'gi')},
-                {bairro: new RegExp(search, 'gi')}
+                { anuncio: new RegExp(search, 'gi') },
+                { cidade: new RegExp(search, 'gi') },
+                { bairro: new RegExp(search, 'gi') }
             ],
             lancamento: false
         })
         .limit(limit)
-        .sort({$natural: -1})
+        .sort({ $natural: -1 })
         .skip(skip)
         .then(async imoveis => {
 
@@ -119,7 +120,7 @@ api.filterListPageResidencial = async (req, res) => {
             tipo: tipo,
             lancamento: false
         })
-        .sort({$natural: -1})
+        .sort({ $natural: -1 })
         .skip(skip)
         .exec(async (err, imoveis) => {
 
@@ -143,14 +144,14 @@ api.collectionCountComercial = async (search) => {
 
     await Comercial
         .count(
-            {
-                $or: [
-                    {'anuncio': new RegExp(search, 'gi')},
-                    {'cidade': new RegExp(search, 'gi')},
-                    {'bairro': new RegExp(search, 'gi')}
-                ],
-                lancamento: false
-            })
+        {
+            $or: [
+                { 'anuncio': new RegExp(search, 'gi') },
+                { 'cidade': new RegExp(search, 'gi') },
+                { 'bairro': new RegExp(search, 'gi') }
+            ],
+            lancamento: false
+        })
         .then(count => {
 
             collectionSize = count;
@@ -169,7 +170,7 @@ api.filterCollectionCountComercial = async (filter) => {
         .find({
             tipo: filter.tipo,
             finalidade: filter.finalidade,
-            valor: {$gte: parseFloat(filter.valorMinimo), $lte: parseFloat(filter.valorMaximo)},
+            valor: { $gte: parseFloat(filter.valorMinimo), $lte: parseFloat(filter.valorMaximo) },
             lancamento: false
         })
         .count()
@@ -200,14 +201,14 @@ api.listPageComercial = async (req, res) => {
     await Comercial
         .find({
             $or: [
-                {anuncio: new RegExp(search, 'gi')},
-                {cidade: new RegExp(search, 'gi')},
-                {bairro: new RegExp(search, 'gi')}
+                { anuncio: new RegExp(search, 'gi') },
+                { cidade: new RegExp(search, 'gi') },
+                { bairro: new RegExp(search, 'gi') }
             ],
             lancamento: false
         })
         .limit(limit)
-        .sort({$natural: -1})
+        .sort({ $natural: -1 })
         .skip(skip)
         .then(async imoveis => {
 
@@ -249,11 +250,11 @@ api.filterListPageComercial = async (req, res) => {
             .find({
                 tipo: tipo,
                 finalidade: finalidade,
-                valor: {$gte: parseFloat(valorMinimo), $lte: parseFloat(valorMaximo)},
+                valor: { $gte: parseFloat(valorMinimo), $lte: parseFloat(valorMaximo) },
                 lancamento: false
             })
             .limit(limit)
-            .sort({$natural: -1})
+            .sort({ $natural: -1 })
             .skip(skip)
             .exec(async (err, imoveis) => {
 
@@ -278,9 +279,9 @@ api.collectionCountLancamentos = async () => {
 
     await Residencial
         .count(
-            {
-                lancamento: true
-            })
+        {
+            lancamento: true
+        })
         .then(count => {
 
             collectionSize = count;
@@ -291,9 +292,9 @@ api.collectionCountLancamentos = async () => {
 
     await Comercial
         .count(
-            {
-                lancamento: true
-            })
+        {
+            lancamento: true
+        })
         .then(count => {
 
             collectionSize += count;
@@ -326,9 +327,9 @@ api.filterCollectionCountLancamentos = async (filter) => {
 
         await Comercial
             .count(
-                {
-                    lancamento: true
-                })
+            {
+                lancamento: true
+            })
             .then(count => {
 
                 collectionSize += count;
@@ -359,7 +360,7 @@ api.listPageLancamentos = async (req, res) => {
             lancamento: true
         })
         .limit(limit / 2)
-        .sort({$natural: -1})
+        .sort({ $natural: -1 })
         .skip(skip)
         .then(async imoveis => {
 
@@ -380,7 +381,7 @@ api.listPageLancamentos = async (req, res) => {
             lancamento: true
         })
         .limit(limit / 2)
-        .sort({$natural: -1})
+        .sort({ $natural: -1 })
         .skip(skip)
         .then(async imoveis => {
 
@@ -420,7 +421,7 @@ api.filterListPageLancamentos = async (req, res) => {
                     lancamento: true
                 })
                 .limit(limit)
-                .sort({$natural: -1})
+                .sort({ $natural: -1 })
                 .skip(skip)
                 .exec(async (err, imoveis) => {
 
@@ -444,7 +445,7 @@ api.filterListPageLancamentos = async (req, res) => {
                     lancamento: true
                 })
                 .limit(limit)
-                .sort({$natural: -1})
+                .sort({ $natural: -1 })
                 .skip(skip)
                 .exec(async (err, imoveis) => {
 
@@ -460,6 +461,49 @@ api.filterListPageLancamentos = async (req, res) => {
                     }
                 });
     }
+};
+
+/*------------------- Duvidas API ---------------------*/
+
+api.sendMail = async (req, res) => {
+
+    const output = `
+    <h1>Rita WebSite - Dúvidas</h1>
+    <ul>
+        <li>Nome: ${req.body.nome}</li>
+        <li>Email p/ contato: ${req.body.email}</li>
+    </ul>
+    <hr>
+    <p style="font-size:14px; font-weight:bold">Assunto: ${req.body.assunto}</p>
+    <br>
+    <p>${req.body.mensagem}</p>
+    `
+    const transporter = nodemailer.createTransport({
+        service: 'Hotmail',
+        auth: {
+            user: 'ritawebsite@outlook.com',
+            pass: 'Comoumdiadedomingo'
+        }
+    })
+
+    const email = {
+        from: `ritawebsite@outlook.com`,
+        to: `dodo_1828@hotmail.com`,
+        subject: `${req.body.assunto}`,
+        html: output
+    }
+
+    transporter.sendMail(email, (err, result) => {
+
+        if (err) {
+            console.log(err)
+            res.sendStatus(500);
+            return
+        }
+
+        console.log('Mensagem enviada!!! ' + JSON.stringify(result))
+        res.sendStatus(200);
+    })
 };
 
 module.exports = api;
