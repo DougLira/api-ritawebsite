@@ -488,7 +488,7 @@ api.sendMail = async (req, res) => {
 
     const email = {
         from: `ritawebsite@outlook.com`,
-        to: `dodo_1828@hotmail.com`,
+        to: `rita.cassiamiro@gmail.com`,
         subject: `${req.body.assunto}`,
         html: output
     }
