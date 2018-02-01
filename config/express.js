@@ -14,8 +14,11 @@ app.use(expressaValidator());
 
 // Add headers
 app.use(function(req, res, next) {
+  
+  // Website you wish to allow to connect
   var allowedOrigins = [
     // "http://imovelritacorretora.com.br",
+    "https://ritaimoveis.herokuapp.com/",
     "http://localhost:4200",
     "http://localhost:3001"
   ];
@@ -23,12 +26,6 @@ app.use(function(req, res, next) {
   if (allowedOrigins.indexOf(origin) > -1) {
     res.setHeader("Access-Control-Allow-Origin", origin);
   }
-  // Website you wish to allow to connect
-  res.setHeader(
-    "ACCESS-CONTROL-ALLOW-ORIGIN",
-    "http://localhost:3001",
-    "https://ritaimoveis.herokuapp.com/"
-  );
 
   // Request methods you wish to allow
   res.setHeader("ACCESS-CONTROL-ALLOW-METHODS", "GET, POST, PUT, DELETE");
