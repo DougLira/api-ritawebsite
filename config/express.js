@@ -2,9 +2,12 @@ const express = require("express"),
   app = express(),
   consign = require("consign"),
   expressaValidator = require("express-validator"),
-  bodyParser = require("body-parser");
+  bodyParser = require("body-parser"),
+  cors = require("cors");
 
 app.set("secret", "comoumdiadedomingo");
+
+app.options("*", cors());
 
 app.use(bodyParser.raw({ type: "application/octet-stream", limit: "500mb" }));
 app.use(bodyParser.json({ type: "*/*", limit: "500mb" }));
@@ -14,18 +17,13 @@ app.use(expressaValidator());
 
 // Add headers
 app.use(function(req, res, next) {
-  
   // Website you wish to allow to connect
-  var allowedOrigins = [
-    // "http://imovelritacorretora.com.br",
-    "https://ritaimoveis.herokuapp.com/",
+  res.setHeader(
+    "ACCESS-CONTROL-ALLOW-ORIGIN",
     "http://localhost:4200",
-    "http://localhost:3001"
-  ];
-  var origin = req.headers.origin;
-  if (allowedOrigins.indexOf(origin) > -1) {
-    res.setHeader("Access-Control-Allow-Origin", origin);
-  }
+    "http://localhost:3001",
+    "https://ritaimoveis.herokuapp.com/"
+  );
 
   // Request methods you wish to allow
   res.setHeader("ACCESS-CONTROL-ALLOW-METHODS", "GET, POST, PUT, DELETE");
