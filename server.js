@@ -1,9 +1,9 @@
 const app = require('./config/express');
 
 
-if (!process.env.NODE_ENV) {
+if (process.env.NODE_ENV === 'development') {
 
-    require('./config/database')('localhost/ritaimoveis');
+    require('./config/database')('mongodb:27017/ritaimoveis');
 } else {
 
     // require('./config/database')('douglas:douglas18@naboo.mongodb.umbler.com:46253/ritaimoveis');
