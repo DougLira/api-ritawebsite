@@ -1,13 +1,14 @@
 const app = require('./config/express');
 
+if (process.env.NODE_ENV === 'development'){
 
-if (process.env.NODE_ENV === 'development') {
+    require('./config/database')('localhost:27017/ritaimoveis');
+} else{
 
     require('./config/database')('mongodb:27017/ritaimoveis');
-} else {
-
-    // require('./config/database')('douglas:douglas18@naboo.mongodb.umbler.com:46253/ritaimoveis');
 }
 
-const port = process.env.PORT || 3000;
+const port = 3000;
 app.listen(port, () => console.log('Servidor rodando na porta ' + port));
+
+

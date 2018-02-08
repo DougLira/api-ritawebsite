@@ -18,12 +18,7 @@ app.use(expressaValidator());
 // Add headers
 app.use(function(req, res, next) {
   // Website you wish to allow to connect
-  res.setHeader(
-    "ACCESS-CONTROL-ALLOW-ORIGIN",
-    "http://localhost:4200",
-    "http://localhost:3001",
-    "https://ritaimoveis.herokuapp.com/"
-  );
+  res.setHeader("ACCESS-CONTROL-ALLOW-ORIGIN", "*");
 
   // Request methods you wish to allow
   res.setHeader("ACCESS-CONTROL-ALLOW-METHODS", "GET, POST, PUT, DELETE");

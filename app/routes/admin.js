@@ -5,36 +5,36 @@ module.exports = app => {
 
     /*-------------- Residencial ROUTES --------------*/
 
-    app.route('/admin/imoveis/residencial')
+    app.route('/api/admin/imoveis/residencial')
         .get(apiSite.listPageResidencial)
         .post(apiAdmin.createResidencial);
 
-    app.route('/admin/imoveis/residencial/:id')
+    app.route('/api/admin/imoveis/residencial/:id')
         .delete(apiAdmin.deleteResidencial)
         .put(apiAdmin.updateResidencial);
 
-    app.route('/admin/imoveis/residencial/images/:id')
+    app.route('/api/admin/imoveis/residencial/images/:id')
         .post(apiAdmin.createImagesResidencial)
         .put(apiAdmin.updateImagesResidencial);
 
-    app.route('/admin/imoveis/residencial/images/add/:id')
+    app.route('/api/admin/imoveis/residencial/images/add/:id')
         .put(apiAdmin.addImagesResidencial);
 
     /*-------------- Comercial ROUTES --------------*/
 
-    app.route('/admin/imoveis/comercial')
+    app.route('/api/admin/imoveis/comercial')
         .get(apiSite.listPageComercial)
         .post(apiAdmin.createComercial);
 
-    app.route('/admin/imoveis/comercial/:id')
+    app.route('/api/admin/imoveis/comercial/:id')
         .delete(apiAdmin.deleteComercial)
         .put(apiAdmin.updateComercial);
 
-    app.route('/admin/imoveis/comercial/images/:id')
+    app.route('/api/admin/imoveis/comercial/images/:id')
         .post(apiAdmin.createImagesComercial)
         .put(apiAdmin.updateImagesComercial);
 
-    app.route('/admin/imoveis/comercial/images/add/:id')
+    app.route('/api/admin/imoveis/comercial/images/add/:id')
         .put(apiAdmin.addImagesComercial);
 
 };

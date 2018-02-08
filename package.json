@@ -6,19 +6,19 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "NODE_ENV=development nodemon server.js"
   },
   "author": "douglaslira",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.18.2",
-    "consign": "^0.1.6",
-    "cors": "^2.8.4",
-    "express": "^4.16.2",
-    "express-validator": "^4.3.0",
-    "jsonwebtoken": "^8.1.0",
-    "mongoose": "^4.13.6",
-    "nodemailer": "^4.4.2",
-    "raw-body": "^2.3.2"
+    "body-parser": "1.18.2",
+    "consign": "0.1.6",
+    "cors": "2.8.4",
+    "express": "4.16.2",
+    "express-validator": "4.3.0",
+    "jsonwebtoken": "8.1.0",
+    "mailgun-js": "^0.14.2",
+    "mongoose": "4.13.6",
+    "raw-body": "2.3.2"
   }
 }
