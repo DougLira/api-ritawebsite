@@ -1,8 +1,5 @@
 let mongoose = require('mongoose'),
-    mailgun = require('mailgun-js')({
-        apiKey: 'key-a129bbb664dfcf7320c42bc62d9ac2bf',
-        domain: 'rita.website.com'
-    }),
+    nodemailer = require('nodemailer'),
     Residencial = mongoose.model('Residencial'),
     Comercial = mongoose.model('Comercial'),
     api = {};
@@ -470,24 +467,64 @@ api.filterListPageLancamentos = async (req, res) => {
 
 api.sendMail = async (req, res) => {
 
-    let data = {
-        from: 'Excited User <dodo_1828@hotmail.com>',
-        to: 'douglasvinicius.clira@hotmail.com',
-        subject: 'HELLO',
-        text: 'This is a testing!!!!'
+    const output = `
+    <h1>Rita WebSite - Dúvidas</h1>
+    <ul>
+        <li>Nome: ${req.body.nome}</li>
+        <li>Email p/ contato: ${req.body.email}</li>
+    </ul>
+    <hr>
+    <p style="font-size:14px; font-weight:bold">Assunto: ${req.body.assunto}</p>
+    <br>
+    <p>${req.body.mensagem}</p>
+    `
+    const transporter = nodemailer.createTransport({
+        service: 'Outlook',
+        auth: {
+            user: 'ritawebsite@outlook.com',
+            pass: 'Comoumdiadedomingo'
+        }
+    })
+
+    const email = {
+        from: `ritawebsite@outlook.com`,
+        to: `douglasvinicius.clira@hotmail.com`,
+        subject: `${req.body.assunto}`,
+        html: output
     }
 
-    mailgun.messages().send(data, function(error, body){
+    transporter.sendMail(email, (err, result) => {
 
-        if (error) {
-            console.log('ERRO EMAIL: ', error);
-            res.status(500).json(false)
+        if (err) {
+            console.log(err);
+            res.status(500).json(false);
             return
         }
 
-        console.log('Corpo', body);
-        res.status(200).json(body);
+        console.log('Mensagem enviada!!!');
+        res.status(200).json(true);
     })
+
+    // ----------------- MAILGUN ----------------------
+    
+    // let data = {
+    //     from: 'Excited User <dodo_1828@hotmail.com>',
+    //     to: 'douglasvinicius.clira@hotmail.com',
+    //     subject: 'HELLO',
+    //     text: 'This is a testing!!!!'
+    // }
+
+    // mailgun.messages().send(data, function(error, body){
+
+    //     if (error) {
+    //         console.log('ERRO EMAIL: ', error);
+    //         res.status(500).json(false)
+    //         return
+    //     }
+
+    //     console.log('Corpo', body);
+    //     res.status(200).json(body);
+    // })
 
 };
 

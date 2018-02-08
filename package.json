@@ -19,6 +19,7 @@
     "jsonwebtoken": "8.1.0",
     "mailgun-js": "^0.14.2",
     "mongoose": "4.13.6",
+    "nodemailer": "^4.4.2",
     "raw-body": "2.3.2"
   }
 }
