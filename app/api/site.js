@@ -465,8 +465,10 @@ api.filterListPageLancamentos = async (req, res) => {
 
 /*------------------- Duvidas API ---------------------*/
 
-api.sendMail = async (req, res) => {
+api.sendMail = (req, res) => {
 
+    // ------------------- Nodemailer -----------------------
+    
     const output = `
     <h1>Rita WebSite - Dúvidas</h1>
     <ul>
@@ -504,27 +506,6 @@ api.sendMail = async (req, res) => {
         console.log('Mensagem enviada!!!');
         res.status(200).json(true);
     })
-
-    // ----------------- MAILGUN ----------------------
-    
-    // let data = {
-    //     from: 'Excited User <dodo_1828@hotmail.com>',
-    //     to: 'douglasvinicius.clira@hotmail.com',
-    //     subject: 'HELLO',
-    //     text: 'This is a testing!!!!'
-    // }
-
-    // mailgun.messages().send(data, function(error, body){
-
-    //     if (error) {
-    //         console.log('ERRO EMAIL: ', error);
-    //         res.status(500).json(false)
-    //         return
-    //     }
-
-    //     console.log('Corpo', body);
-    //     res.status(200).json(body);
-    // })
 
 };
 
