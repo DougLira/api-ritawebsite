@@ -1,5 +1,5 @@
 let mongoose = require('mongoose'),
-    nodemailer = require('nodemailer'),
+    // nodemailer = require('nodemailer'),
     Residencial = mongoose.model('Residencial'),
     Comercial = mongoose.model('Comercial'),
     api = {};
@@ -11,14 +11,14 @@ api.collectionCountResidencial = async (search) => {
 
     await Residencial
         .count(
-        {
-            $or: [
-                { 'anuncio': new RegExp(search, 'gi') },
-                { 'cidade': new RegExp(search, 'gi') },
-                { 'bairro': new RegExp(search, 'gi') }
-            ],
-            lancamento: false
-        })
+            {
+                $or: [
+                    { 'anuncio': new RegExp(search, 'gi') },
+                    { 'cidade': new RegExp(search, 'gi') },
+                    { 'bairro': new RegExp(search, 'gi') }
+                ],
+                lancamento: false
+            })
         .then(count => {
 
             collectionSize = count;
@@ -144,14 +144,14 @@ api.collectionCountComercial = async (search) => {
 
     await Comercial
         .count(
-        {
-            $or: [
-                { 'anuncio': new RegExp(search, 'gi') },
-                { 'cidade': new RegExp(search, 'gi') },
-                { 'bairro': new RegExp(search, 'gi') }
-            ],
-            lancamento: false
-        })
+            {
+                $or: [
+                    { 'anuncio': new RegExp(search, 'gi') },
+                    { 'cidade': new RegExp(search, 'gi') },
+                    { 'bairro': new RegExp(search, 'gi') }
+                ],
+                lancamento: false
+            })
         .then(count => {
 
             collectionSize = count;
@@ -279,9 +279,9 @@ api.collectionCountLancamentos = async () => {
 
     await Residencial
         .count(
-        {
-            lancamento: true
-        })
+            {
+                lancamento: true
+            })
         .then(count => {
 
             collectionSize = count;
@@ -292,9 +292,9 @@ api.collectionCountLancamentos = async () => {
 
     await Comercial
         .count(
-        {
-            lancamento: true
-        })
+            {
+                lancamento: true
+            })
         .then(count => {
 
             collectionSize += count;
@@ -327,9 +327,9 @@ api.filterCollectionCountLancamentos = async (filter) => {
 
         await Comercial
             .count(
-            {
-                lancamento: true
-            })
+                {
+                    lancamento: true
+                })
             .then(count => {
 
                 collectionSize += count;
@@ -467,46 +467,71 @@ api.filterListPageLancamentos = async (req, res) => {
 
 api.sendMail = (req, res) => {
 
-    // ------------------- Nodemailer -----------------------
     
     const output = `
     <h1>Rita WebSite - Dúvidas</h1>
     <ul>
-        <li>Nome: ${req.body.nome}</li>
-        <li>Email p/ contato: ${req.body.email}</li>
+    <li>Nome: ${req.body.nome}</li>
+    <li>Email p/ contato: ${req.body.email}</li>
     </ul>
     <hr>
-    <p style="font-size:14px; font-weight:bold">Assunto: ${req.body.assunto}</p>
     <br>
     <p>${req.body.mensagem}</p>
     `
-    const transporter = nodemailer.createTransport({
-        service: 'Outlook',
-        auth: {
-            user: 'ritawebsite@outlook.com',
-            pass: 'Comoumdiadedomingo'
-        }
-    })
-
-    const email = {
-        from: `ritawebsite@outlook.com`,
-        to: `douglasvinicius.clira@hotmail.com`,
-        subject: `${req.body.assunto}`,
+    
+    // ----------------- Mailgun ------------------
+    
+    var api_key = 'key-0248ef912f586c33bc40256ebedf75ec';
+    var DOMAIN = 'mail.imovelritacorretora.com.br';
+    var mailgun = require('mailgun-js')({ apiKey: api_key, domain: DOMAIN });
+    
+    var data = {
+        from: 'Rita Website <ritawebsite@mail.imovelritacorretora.com.br>',
+        to: 'ritacassiamiro@gmail.com',
+        subject: req.body.assunto,
         html: output
-    }
-
-    transporter.sendMail(email, (err, result) => {
-
-        if (err) {
-            console.log(err);
-            res.status(500).json(false);
+    };
+    
+    mailgun.messages().send(data, function (error, body) {
+        if (error) {
+            console.log(error);
+            res.status(500).json(error);
             return
         }
-
+        
         console.log('Mensagem enviada!!!');
-        res.status(200).json(true);
-    })
+        console.log('body', body);
+        res.status(200).json(body);
+    });
+    
+    // ------------------- Nodemailer -----------------------
 
+    // const transporter = nodemailer.createTransport({
+    //     service: 'Outlook',
+    //     auth: {
+    //         user: 'ritawebsite@outlook.com',
+    //         pass: 'Comoumdiadedomingo'
+    //     }
+    // })
+
+    // const email = {
+    //     from: `ritawebsite@outlook.com`,
+    //     to: `douglasvinicius.clira@hotmail.com`,
+    //     subject: `${req.body.assunto}`,
+    //     html: output
+    // }
+
+    // transporter.sendMail(email, (err, result) => {
+
+    //     if (err) {
+    //         console.log(err);
+    //         res.status(500).json(false);
+    //         return
+    //     }
+
+    //     console.log('Mensagem enviada!!!');
+    //     res.status(200).json(true);
+    // })
 };
 
 module.exports = api;
