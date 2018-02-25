@@ -1,22 +1,22 @@
 const express = require("express"),
   app = express(),
   consign = require("consign"),
-  expressaValidator = require("express-validator"),
   bodyParser = require("body-parser"),
   cors = require("cors");
+
+if (process.env.NODE_ENV === 'development') {
+  app.set("mailgun_email", "dodo_1828@hotmail.com");
+} else {
+  app.set("mailgun_email", "ritacassiamiro@gmail.com");
+}
 
 app.set("secret", "comoumdiadedomingo");
 
 app.options("*", cors());
 
-app.use(bodyParser.raw({ type: "application/octet-stream", limit: "500mb" }));
-app.use(bodyParser.json({ type: "*/*", limit: "500mb" }));
-app.use(bodyParser.urlencoded({ extended: true, limit: "500mb" }));
-
-app.use(expressaValidator());
-
 // Add headers
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
+
   // Website you wish to allow to connect
   res.setHeader("ACCESS-CONTROL-ALLOW-ORIGIN", "*");
 
@@ -37,7 +37,15 @@ app.use(function(req, res, next) {
   next();
 });
 
-consign({ cwd: "app" })
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+app.use(express.static('./uploads'));
+
+consign({
+    cwd: "app"
+  })
   .include("models")
   .then("api")
   .then("routes/site.js")

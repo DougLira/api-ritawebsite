@@ -3,6 +3,11 @@ module.exports = app => {
     let apiAdmin = app.api.admin,
         apiSite = app.api.site;
 
+    /* ------------- Upload ROUTE ----------------- */
+
+    app.route('/api/upload')
+        .post(apiAdmin.uploadImages);
+
     /*-------------- Residencial ROUTES --------------*/
 
     app.route('/api/admin/imoveis/residencial')
@@ -14,7 +19,6 @@ module.exports = app => {
         .put(apiAdmin.updateResidencial);
 
     app.route('/api/admin/imoveis/residencial/images/:id')
-        .post(apiAdmin.createImagesResidencial)
         .put(apiAdmin.updateImagesResidencial);
 
     app.route('/api/admin/imoveis/residencial/images/add/:id')
@@ -31,7 +35,6 @@ module.exports = app => {
         .put(apiAdmin.updateComercial);
 
     app.route('/api/admin/imoveis/comercial/images/:id')
-        .post(apiAdmin.createImagesComercial)
         .put(apiAdmin.updateImagesComercial);
 
     app.route('/api/admin/imoveis/comercial/images/add/:id')

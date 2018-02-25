@@ -16,14 +16,18 @@ module.exports = app => {
 
                     console.log('Login ou senha inválidos.');
                     res.sendStatus(401);
-                } else {
-
-                    console.log('Autenticado com sucesso');
-                    let token = jwt.sign({login: user.login}, app.get('secret'), {expiresIn: '5h'});
-
-                    res.set('x-access-token', token);
-                    res.sendStatus(204);
+                    return;
                 }
+
+                console.log('Autenticado com sucesso');
+                let token = jwt.sign({
+                    login: user.login
+                }, app.get('secret'), {
+                    expiresIn: '5h'
+                });
+
+                res.set('x-access-token', token);
+                res.sendStatus(204);
             }, err => {
 
                 console.log('User Authenticates ERROR: ' + err);
@@ -50,7 +54,9 @@ module.exports = app => {
                 }
 
                 User
-                    .findOne({login: decoded.login})
+                    .findOne({
+                        login: decoded.login
+                    })
                     .then(user => {
 
                         if (user) {
@@ -66,7 +72,7 @@ module.exports = app => {
         } else {
 
             console.log('Token não presente.');
-            res.sendStatus(500);
+            res.sendStatus(400);
         }
     };
 

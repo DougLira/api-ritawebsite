@@ -97,8 +97,8 @@ api.filterListPageResidencial = async (req, res) => {
         limit = 8,
         data = {},
         filter = {},
-        tipo = req.query.tipo.toLowerCase(),
-        finalidade = req.query.finalidade.toLowerCase(),
+        tipo = req.query.tipo,
+        finalidade = req.query.finalidade,
         valorMinimo = req.query.minimo ? req.query.minimo : 1000,
         valorMaximo = req.query.maximo ? req.query.maximo : 2000000;
 
@@ -487,7 +487,7 @@ api.sendMail = (req, res) => {
     
     var data = {
         from: 'Rita Website <ritawebsite@mail.imovelritacorretora.com.br>',
-        to: 'ritacassiamiro@gmail.com',
+        to: app.get('mailgun_email'),
         subject: req.body.assunto,
         html: output
     };

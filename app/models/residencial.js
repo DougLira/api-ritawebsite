@@ -1,5 +1,4 @@
-let urlDefault = require('./default-picture'),
-    mongoose = require('mongoose'),
+let mongoose = require('mongoose'),
     schema = mongoose.Schema({
 
         anuncio: {
@@ -12,11 +11,9 @@ let urlDefault = require('./default-picture'),
             required: true,
             default: 0.00
         },
-        fotoPrincipal:{
-            url: {
-                type: String,
-                default: urlDefault
-            }
+        foto:{
+            type: String,
+            default: 'http://localhost:3000/foto-indisponivel.jpg'
         },
         fotos: [],
         dormitorios: {
