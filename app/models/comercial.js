@@ -13,7 +13,7 @@ let mongoose = require('mongoose'),
         },
         foto: {
             type:String,
-            default: 'http://localhost:3000/foto-indisponivel.jpg'
+            default: 'http://159.89.32.108:3000/foto-indisponivel.jpg'
         },
         fotos: [],
         area_util: {

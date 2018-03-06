@@ -15,7 +15,7 @@ api.uploadImages = (req, res) => {
     if (process.env.NODE_ENV === 'development') {
         HOST = 'http://localhost:3000';
     } else {
-        HOST = 'http://174.138.57.46:3000';
+        HOST = 'http://159.89.32.108:3000';
     }
 
     const tmp_path = path.join(__dirname, '../..', 'tmp');
@@ -77,7 +77,7 @@ api.createResidencial = (req, res) => {
         lancamento: req.body.lancamento || false,
         finalidade: req.body.finalidade,
         tipo: req.body.tipo,
-        foto: req.body.foto,
+        foto: req.body.foto || 'http://159.89.32.108:3000/foto-indisponivel.jpg',
         fotos: req.body.fotos.map(foto => foto)
     });
 
@@ -224,7 +224,7 @@ api.createComercial = (req, res) => {
         tipo: req.body.tipo,
         lancamento: req.body.lancamento,
         finalidade: req.body.finalidade,
-        foto: req.body.foto,
+        foto: req.body.foto || 'http://159.89.32.108:3000/foto-indisponivel.jpg',
         fotos: req.body.fotos.map(foto => foto)
     });
 
